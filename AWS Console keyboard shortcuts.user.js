@@ -6,6 +6,8 @@
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
 // @grant        none
+// @updateURL    https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
+// @downloadURL  https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
 // ==/UserScript==
 
 (function() {
