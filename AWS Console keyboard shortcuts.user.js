@@ -6,7 +6,8 @@
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
 // @grant        none
-// @require      http://code.jquery.com/jquery-3.3.1.min.js
+// @require      https://code.jquery.com/jquery-3.3.1.min.js
+// @require      https://code.jquery.com/ui/1.12.1/jquery-ui.min.js
 // @updateURL    https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
 // @downloadURL  https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
 // ==/UserScript==
@@ -50,12 +51,18 @@
             });
             $("#regionSearch").bind('keydown', function(e) {
                 if (e.key === 'Enter') {
+                    var found = false;
                     var targetRegion = $(this).val();
                     $("a.available-region").each(function(index) {
                         if ($(this).attr("data-region-id") === targetRegion) {
                             $(this)[0].click();
+                            found = true;
+                            return false;
                         }
                     });
+                    if (!found) {
+                        $(this).effect("shake");
+                    }
                 }
             });
             $("#regionSearch").focus();
