@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AWS Console keyboard shortcuts
 // @namespace    https://jamesoff.net/
-// @version      1.0
+// @version      1.1
 // @description  AWS Console keyboard shortcuts for services menu
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
@@ -18,6 +18,11 @@
         if (e.code === 'Escape') {
             if (document.getElementById("servicesMenuContent").style.display === 'block') {
                 document.getElementById('nav-servicesMenu').click();
+                return;
+            }
+            if (document.getElementById("regionMenuContent").style.display === 'block') {
+                document.getElementById('nav-regionMenu').click();
+                return;
             }
         }
 
@@ -32,6 +37,17 @@
         // Period to open Services menu
         if(e.code === 'Period') {
             document.getElementById('nav-servicesMenu').click();
+            return;
         }
+
+        console.log(e.code);
+
+        if (e.code === 'KeyR' && event.getModifierState("Alt") === true) {
+            document.getElementById('nav-regionMenu').click();
+            return;
+        }
+
+        // TODO: add region filter box
     };
 })();
+
