@@ -6,6 +6,7 @@
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
 // @grant        none
+// @require      http://code.jquery.com/jquery-3.3.1.min.js
 // @updateURL    https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
 // @downloadURL  https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
 // ==/UserScript==
@@ -40,14 +41,26 @@
             return;
         }
 
-        console.log(e.code);
-
         if (e.code === 'KeyR' && event.getModifierState("Alt") === true) {
             document.getElementById('nav-regionMenu').click();
+            $("#regionMenuContent").prepend('<input type="text" id="regionSearch" placeholder="type a region" style="margin-left: 8px;" />');
+
+            $("#regionSearch").bind('input', function(e) {
+                console.log('contents of input field is ' + $(this).val());
+            });
+            $("#regionSearch").bind('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    var targetRegion = $(this).val();
+                    $("a.available-region").each(function(index) {
+                        if ($(this).attr("data-region-id") === targetRegion) {
+                            $(this)[0].click();
+                        }
+                    });
+                }
+            });
+            $("#regionSearch").focus();
+            e.preventDefault();
             return;
         }
-
-        // TODO: add region filter box
     };
 })();
-
