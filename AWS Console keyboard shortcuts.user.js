@@ -63,7 +63,7 @@
                         $(this).css("color", "");
                     }
                     else {
-                        $(this).css("color", "#999");
+                        $(this).css("color", "#ddd");
                     }
                 });
             });
