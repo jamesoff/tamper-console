@@ -16,7 +16,7 @@
     'use strict';
 
     window.onkeydown = function(e){
-        // Escape to close Services menu
+        // Escape to close Services or Region menu
         if (e.code === 'Escape') {
             if (document.getElementById("servicesMenuContent").style.display === 'block') {
                 document.getElementById('nav-servicesMenu').click();
@@ -42,6 +42,7 @@
             return;
         }
 
+        // Alt-R (Option-R) to open Region menu
         if (e.code === 'KeyR' && event.getModifierState("Alt") === true) {
             document.getElementById('nav-regionMenu').click();
             $("#regionMenuContent").prepend('<input type="text" id="regionSearch" placeholder="type a region" style="margin-left: 8px;" />');
@@ -52,15 +53,11 @@
                 availableRegionList.push($(this).attr("data-region-id"));
             });
 
-            console.log("currently available regions are " + availableRegionList);
-
             $("#regionSearch").bind('input', function(e) {
-                console.log('contents of input field is ' + $(this).val());
                 var findRegion = $(this).val();
                 $("a.available-region").each(function(index) {
                     var region = $(this).attr("data-region-id");
                     if (region.startsWith(findRegion)) {
-                        console.log("matches " + region);
                         $(this).css("color", "");
                     }
                     else {
@@ -73,15 +70,25 @@
                 if (e.key === 'Enter') {
                     var found = false;
                     var targetRegion = $(this).val();
+                    var candidateRegions = [];
                     $("a.available-region").each(function(index) {
                         if ($(this).attr("data-region-id") === targetRegion) {
                             $(this)[0].click();
                             found = true;
                             return false;
                         }
+                        if ($(this).attr("data-region-id").startsWith(targetRegion)) {
+                              candidateRegions.push($(this));
+                        }
                     });
                     if (!found) {
-                        $(this).effect("shake");
+                        if (candidateRegions.length == 1) {
+                            // exactly one region matched the prefix
+                            candidateRegions[0][0].click();
+                        }
+                        else {
+                            $(this).effect("shake");
+                        }
                     }
                 }
             });
