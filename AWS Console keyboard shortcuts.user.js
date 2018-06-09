@@ -46,9 +46,29 @@
             document.getElementById('nav-regionMenu').click();
             $("#regionMenuContent").prepend('<input type="text" id="regionSearch" placeholder="type a region" style="margin-left: 8px;" />');
 
+            var availableRegionList = [];
+
+            $("a.available-region").each(function(index) {
+                availableRegionList.push($(this).attr("data-region-id"));
+            });
+
+            console.log("currently available regions are " + availableRegionList);
+
             $("#regionSearch").bind('input', function(e) {
                 console.log('contents of input field is ' + $(this).val());
+                var findRegion = $(this).val();
+                $("a.available-region").each(function(index) {
+                    var region = $(this).attr("data-region-id");
+                    if (region.startsWith(findRegion)) {
+                        console.log("matches " + region);
+                        $(this).css("color", "");
+                    }
+                    else {
+                        $(this).css("color", "#999");
+                    }
+                });
             });
+
             $("#regionSearch").bind('keydown', function(e) {
                 if (e.key === 'Enter') {
                     var found = false;
