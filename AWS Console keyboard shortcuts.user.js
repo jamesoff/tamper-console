@@ -43,6 +43,7 @@
         }
 
         // Alt-R (Option-R) to open Region menu
+        // TODO: might be nice to make this work if the user clicks the menu too
         if (e.code === 'KeyR' && event.getModifierState("Alt") === true) {
             document.getElementById('nav-regionMenu').click();
             $("#regionMenuContent").prepend('<input type="text" id="regionSearch" placeholder="type a region" style="margin-left: 8px;" />');
@@ -54,10 +55,11 @@
             });
 
             $("#regionSearch").bind('input', function(e) {
-                var findRegion = $(this).val();
+                var findRegion = $(this).val().toLowerCase();
                 $("a.available-region").each(function(index) {
                     var region = $(this).attr("data-region-id");
-                    if (region.startsWith(findRegion)) {
+                    var regionName = $(this).text().toLowerCase();
+                    if (region.startsWith(findRegion) || regionName.includes(findRegion)) {
                         $(this).css("color", "");
                     }
                     else {
@@ -69,10 +71,11 @@
             $("#regionSearch").bind('keydown', function(e) {
                 if (e.key === 'Enter') {
                     var found = false;
-                    var targetRegion = $(this).val();
+                    var targetRegion = $(this).val().toLowerCase();
                     var candidateRegions = [];
                     $("a.available-region").each(function(index) {
-                        if ($(this).attr("data-region-id") === targetRegion) {
+                        if ($(this).attr("data-region-id") === targetRegion || $(this).text().toLowerCase().includes(targetRegion)) {
+                            // TODO: understand why this needs the array index
                             $(this)[0].click();
                             found = true;
                             return false;
