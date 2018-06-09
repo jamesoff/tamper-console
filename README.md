@@ -10,6 +10,6 @@ I dislike Javascript, so any and all improvements are welcome!
 
 Tested with [Tampermonkey](https://tampermonkey.net) in Chrome. Other browsers/plugins may vary.
 
-![Animated GIF showing use of services menu](https://github.com/jamesoff/tamper-console/raw/develop/tamper-monkey-period.gif)
+![Animated GIF showing use of services menu](https://github.com/jamesoff/tamper-console/raw/master/tamper-monkey-period.gif)
 
-![Animated GIF showing use of region menu](https://github.com/jamesoff/tamper-console/raw/develop/tamper-monkey-region.gif)
+![Animated GIF showing use of region menu](https://github.com/jamesoff/tamper-console/raw/master/tamper-monkey-region.gif)
