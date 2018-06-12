@@ -44,7 +44,7 @@
 
         // Alt-R (Option-R) to open Region menu
         // TODO: might be nice to make this work if the user clicks the menu too
-        if (e.code === 'KeyR' && event.getModifierState("Alt") === true) {
+        if (e.code === 'KeyR' && e.getModifierState("Alt") === true) {
             document.getElementById('nav-regionMenu').click();
             $("#regionMenuContent").prepend('<input type="text" id="regionSearch" placeholder="type a region" style="margin-left: 8px; border-radius: 5px; font-size: 13px; padding: 7px 10px; outline: 0; border: 1px solid #ccc;" />');
 
