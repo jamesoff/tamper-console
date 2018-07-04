@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         AWS Console keyboard shortcuts
 // @namespace    https://jamesoff.net/
-// @version      1.1
+// @version      1.2
 // @description  AWS Console keyboard shortcuts for services menu
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
+// @exclude      https://console.aws.amazon.com/iam/*
 // @grant        none
 // @require      https://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://code.jquery.com/ui/1.12.1/jquery-ui.min.js
