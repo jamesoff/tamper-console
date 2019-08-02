@@ -5,11 +5,7 @@
 // @description  AWS Console keyboard shortcuts for services menu
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
-// @exclude      https://console.aws.amazon.com/iam/*
-// @exclude      https://console.aws.amazon.com/athena/*
 // @grant        none
-// @require      https://code.jquery.com/jquery-3.3.1.min.js
-// @require      https://code.jquery.com/ui/1.12.1/jquery-ui.min.js
 // @updateURL    https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
 // @downloadURL  https://github.com/jamesoff/tamper-console/raw/master/AWS%20Console%20keyboard%20shortcuts.user.js
 // ==/UserScript==
