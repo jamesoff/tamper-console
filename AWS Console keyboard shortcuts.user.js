@@ -6,6 +6,7 @@
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
 // @exclude      https://console.aws.amazon.com/iam/*
+// @exclude      https://console.aws.amazon.com/athena/*
 // @grant        none
 // @require      https://code.jquery.com/jquery-3.3.1.min.js
 // @require      https://code.jquery.com/ui/1.12.1/jquery-ui.min.js
@@ -47,56 +48,73 @@
         // TODO: might be nice to make this work if the user clicks the menu too
         if (e.code === 'KeyR' && e.getModifierState("Alt") === true) {
             document.getElementById('nav-regionMenu').click();
-            $("#regionMenuContent").prepend('<input type="text" id="regionSearch" placeholder="type a region" style="margin-left: 8px; border-radius: 5px; font-size: 13px; padding: 7px 10px; outline: 0; border: 1px solid #ccc;" />');
+            var inputElement = document.createElement("input");
+            inputElement.type = "text";
+            inputElement.id = "regionSearch";
+            inputElement.placeholder = "type a region";
+            inputElement.style = "margin-left: 8px; border-radius: 5px; font-size: 13px; padding: 7px 10px; outline: 0; border: 1px solid #ccc;";
+            document.getElementById("regionMenuContent").prepend(inputElement);
 
             var availableRegionList = [];
 
-            $("a.available-region").each(function(index) {
-                availableRegionList.push($(this).attr("data-region-id"));
-            });
+            var availableRegions = document.evaluate(
+            "//a[contains(@class,'available-region')]",
+            document,
+            null,
+            XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,
+            null);
+            for (var i = 0; i < availableRegions.snapshotLength; i++) {
+                var thisLink = availableRegions.snapshotItem(i);
+                availableRegionList.push(thisLink.getAttribute("data-region-id"));
+            };
+            //console.log(availableRegionList);
 
-            $("#regionSearch").bind('input', function(e) {
-                var findRegion = $(this).val().toLowerCase();
-                $("a.available-region").each(function(index) {
-                    var region = $(this).attr("data-region-id");
-                    var regionName = $(this).text().toLowerCase();
+            document.getElementById("regionSearch").addEventListener('input', function(e) {
+                var findRegion = document.getElementById("regionSearch").value.toLowerCase();
+                for (var i = 0; i < availableRegions.snapshotLength; i++) {
+                    var thisLink = availableRegions.snapshotItem(i);
+                    var region = thisLink.getAttribute("data-region-id");
+                    var regionName = thisLink.text.toLowerCase();
                     if (region.startsWith(findRegion) || regionName.includes(findRegion)) {
-                        $(this).css("color", "");
+                        thisLink.style.color = "";
                     }
                     else {
-                        $(this).css("color", "#ddd");
+                        thisLink.style.color = "#ddd";
                     }
-                });
+                };
             });
 
-            $("#regionSearch").bind('keydown', function(e) {
+            document.getElementById("regionSearch").addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     var found = false;
-                    var targetRegion = $(this).val().toLowerCase();
+                    var targetRegion = document.getElementById("regionSearch").value.toLowerCase();
                     var candidateRegions = [];
-                    $("a.available-region").each(function(index) {
-                        if ($(this).attr("data-region-id") === targetRegion || $(this).text().toLowerCase().includes(targetRegion)) {
+                    //$("a.available-region").each(function(index) {
+                    for (var i = 0; i < availableRegions.snapshotLength; i++) {
+                        var thisLink = availableRegions.snapshotItem(i);
+                        if (thisLink.getAttribute("data-region-id") === targetRegion || thisLink.text.toLowerCase().includes(targetRegion)) {
                             // TODO: understand why this needs the array index
-                            $(this)[0].click();
+                            thisLink.click();
                             found = true;
                             return false;
                         }
-                        if ($(this).attr("data-region-id").startsWith(targetRegion)) {
-                              candidateRegions.push($(this));
+                        if (thisLink.getAttribute("data-region-id").startsWith(targetRegion)) {
+                              candidateRegions.push(thisLink);
                         }
-                    });
+                    };
                     if (!found) {
                         if (candidateRegions.length == 1) {
                             // exactly one region matched the prefix
-                            candidateRegions[0][0].click();
+                            candidateRegions[0].click();
                         }
                         else {
-                            $(this).effect("shake");
+                            //$(this).effect("shake");
+                            console.log("no match");
                         }
                     }
                 }
             });
-            $("#regionSearch").focus();
+            document.getElementById("regionSearch").focus();
             e.preventDefault();
             return;
         }
