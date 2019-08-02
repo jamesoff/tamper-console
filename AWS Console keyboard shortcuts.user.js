@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AWS Console keyboard shortcuts
 // @namespace    https://jamesoff.net/
-// @version      1.2
+// @version      1.3
 // @description  AWS Console keyboard shortcuts for services menu
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
@@ -51,6 +51,7 @@
             inputElement.type = "text";
             inputElement.id = "regionSearch";
             inputElement.placeholder = "type a region";
+
             inputElement.style = "margin-left: 8px; border-radius: 5px; font-size: 13px; padding: 7px 10px; outline: 0; border: 1px solid #ccc;";
             document.getElementById("regionMenuContent").prepend(inputElement);
 
@@ -66,7 +67,6 @@
                 var thisLink = availableRegions.snapshotItem(i);
                 availableRegionList.push(thisLink.getAttribute("data-region-id"));
             };
-            //console.log(availableRegionList);
 
             document.getElementById("regionSearch").addEventListener('input', function(e) {
                 var findRegion = document.getElementById("regionSearch").value.toLowerCase();
@@ -91,11 +91,9 @@
                     var found = false;
                     var targetRegion = document.getElementById("regionSearch").value.toLowerCase();
                     var candidateRegions = [];
-                    //$("a.available-region").each(function(index) {
                     for (var i = 0; i < availableRegions.snapshotLength; i++) {
                         var thisLink = availableRegions.snapshotItem(i);
                         if (thisLink.getAttribute("data-region-id") === targetRegion || thisLink.text.toLowerCase().includes(targetRegion)) {
-                            // TODO: understand why this needs the array index
                             thisLink.click();
                             found = true;
                             return false;
