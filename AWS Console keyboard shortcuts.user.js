@@ -44,6 +44,9 @@
         // TODO: might be nice to make this work if the user clicks the menu too
         if (e.code === 'KeyR' && e.getModifierState("Alt") === true) {
             document.getElementById('nav-regionMenu').click();
+            if (document.getElementById("region-sel-not-required")) {
+                return;
+            }
             var inputElement = document.createElement("input");
             inputElement.type = "text";
             inputElement.id = "regionSearch";
