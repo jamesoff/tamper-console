@@ -74,8 +74,11 @@
                     var thisLink = availableRegions.snapshotItem(i);
                     var region = thisLink.getAttribute("data-region-id");
                     var regionName = thisLink.text.toLowerCase();
-                    if (region.startsWith(findRegion) || regionName.includes(findRegion)) {
+                    if (findRegion == "") {
                         thisLink.style.color = "";
+                    }
+                    else if (region.startsWith(findRegion) || regionName.includes(findRegion)) {
+                        thisLink.style.color = "rgb(0, 115, 187)";
                     }
                     else {
                         thisLink.style.color = "#ddd";
