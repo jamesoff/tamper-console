@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AWS Console keyboard shortcuts
 // @namespace    https://jamesoff.net/
-// @version      1.3
+// @version      1.4
 // @description  AWS Console keyboard shortcuts for services menu
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
@@ -36,7 +36,13 @@
 
         // Period to open Services menu
         if(e.code === 'Period') {
-            document.getElementById('nav-servicesMenu').click();
+            if (window.location.pathname == "/console/home") {
+                e.preventDefault();
+                document.getElementById("search-box-input").focus();
+            }
+            else {
+                document.getElementById('nav-servicesMenu').click();
+            }
             return;
         }
 
