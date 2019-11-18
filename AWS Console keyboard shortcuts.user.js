@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AWS Console keyboard shortcuts
 // @namespace    https://jamesoff.net/
-// @version      1.4
+// @version      1.5
 // @description  AWS Console keyboard shortcuts for services menu
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
@@ -41,7 +41,10 @@
                 document.getElementById("search-box-input").focus();
             }
             else {
+                e.preventDefault();
                 document.getElementById('nav-servicesMenu').click();
+                document.getElementById('awsc-services-search-autocomplete').focus();
+                setTimeout(function () { document.getElementById('awsc-services-search-autocomplete').select(); }, 0);
             }
             return;
         }
