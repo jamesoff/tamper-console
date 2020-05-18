@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AWS Console keyboard shortcuts
 // @namespace    https://jamesoff.net/
-// @version      1.6
+// @version      1.7
 // @description  AWS Console keyboard shortcuts for services menu
 // @author       James Seward
 // @match        https://*.console.aws.amazon.com/*
@@ -82,15 +82,15 @@
     // Escape to close Services or Region menu
     if (e.code === "Escape") {
       if (
-        document.getElementById("servicesMenuContent").style.display === "block"
+        window.top.document.getElementById("servicesMenuContent").style.display === "block"
       ) {
-        document.getElementById("nav-servicesMenu").click();
+        window.top.document.getElementById("nav-servicesMenu").click();
         return;
       }
       if (
-        document.getElementById("regionMenuContent").style.display === "block"
+        window.top.document.getElementById("regionMenuContent").style.display === "block"
       ) {
-        document.getElementById("nav-regionMenu").click();
+        window.top.document.getElementById("nav-regionMenu").click();
         return;
       }
     }
@@ -105,15 +105,15 @@
 
     // Period to open Services menu
     if (e.code === "Period") {
-      if (window.location.pathname == "/console/home") {
+      if (window.top.location.pathname == "/console/home") {
         e.preventDefault();
-        document.getElementById("search-box-input").focus();
+        window.top.document.getElementById("search-box-input").focus();
       } else {
         e.preventDefault();
-        document.getElementById("nav-servicesMenu").click();
-        document.getElementById("awsc-services-search-autocomplete").focus();
+        window.top.document.getElementById("nav-servicesMenu").click();
+        window.top.document.getElementById("awsc-services-search-autocomplete").focus();
         setTimeout(function () {
-          document.getElementById("awsc-services-search-autocomplete").select();
+          window.top.document.getElementById("awsc-services-search-autocomplete").select();
         }, 0);
       }
       return;
@@ -122,22 +122,23 @@
     // Alt-R (Option-R) to open Region menu
     // TODO: might be nice to make this work if the user clicks the menu too
     if (e.code === "KeyR" && e.getModifierState("Alt") === true) {
-      document.getElementById("nav-regionMenu").click();
-      if (document.getElementById("region-sel-not-required")) {
+        console.log("region handler");
+      window.top.document.getElementById("nav-regionMenu").click();
+      if (window.top.document.getElementById("region-sel-not-required")) {
         return;
       }
-      var inputElement = document.createElement("input");
+      var inputElement = window.top.document.createElement("input");
       inputElement.type = "text";
       inputElement.id = "regionSearch";
       inputElement.placeholder = "type a region";
 
       inputElement.style =
         "margin-left: 8px; border-radius: 5px; font-size: 13px; padding: 7px 10px; outline: 0; border: 1px solid #ccc;";
-      document.getElementById("regionMenuContent").prepend(inputElement);
+      window.top.document.getElementById("regionMenuContent").prepend(inputElement);
 
       var availableRegionList = [];
 
-      var availableRegions = document.evaluate(
+      var availableRegions = window.top.document.evaluate(
         "//a[contains(@class,'available-region')]",
         document,
         null,
@@ -149,7 +150,7 @@
         availableRegionList.push(thisLink.getAttribute("data-region-id"));
       }
 
-      document
+      window.top.document
         .getElementById("regionSearch")
         .addEventListener("input", function (e) {
           var findRegion = document
@@ -172,7 +173,7 @@
           }
         });
 
-      document
+      window.top.document
         .getElementById("regionSearch")
         .addEventListener("keydown", function (e) {
           if (e.key === "Enter") {
@@ -208,14 +209,17 @@
             }
           }
         });
-      document.getElementById("regionSearch").focus();
+      window.top.document.getElementById("regionSearch").focus();
       e.preventDefault();
       return;
     }
   };
 
-  var region_menu = document.getElementById("nav-regionMenu").firstChild;
-  var prefix = region_to_flag(region_menu.innerText);
-  region_menu.innerText = prefix + " " + region_menu.innerText;
-  region_menu.style = "font-size: 15px; font-weight: bold; font-family: Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif;";
+  var region_menu = window.top.document.getElementById("nav-regionMenu").firstChild;
+  // a horrible hack to make this idempotent
+  if (region_menu.style.fontWeight != "bold") {
+    var prefix = region_to_flag(region_menu.innerText);
+    region_menu.innerText = prefix + " " + region_menu.innerText;
+    region_menu.style = "font-size: 15px; font-weight: bold; font-family: Helvetica Neue, Roboto, Arial, Droid Sans, sans-serif;";
+  }
 })();
